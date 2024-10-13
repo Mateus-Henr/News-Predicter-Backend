@@ -1,0 +1,10 @@
+finvizfinance
+requests
+flask
+flask-cors
+pandas
+python-dotenv
+openai
+instructor
+pydantic
+pymongo
