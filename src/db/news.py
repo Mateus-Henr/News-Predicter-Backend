@@ -71,7 +71,3 @@ def clear_all_data():
 
         ticker_collection.delete_many({})
         news_collection.delete_many({})
-
-
-print(add_ticker_to_watch("TSLA"))
-print(get_tickers_in_db())
