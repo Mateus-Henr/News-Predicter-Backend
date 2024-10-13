@@ -6,14 +6,15 @@ from db.mongo_client import MongoDBClient
 
 load_dotenv()
 
-MAX_TICKERS = int(os.environ.get("MAX_TICKERS", 0))
+MAX_TICKERS = int(os.environ.get("MAX_TICKERS", 2))
 
 
 def get_tickers_in_db():
     with MongoDBClient() as db:
         collection = db["ticker"]
         result = collection.find()
-    return result is not None
+        tickers = [doc['ticker'] for doc in result]
+    return tickers
 
 
 def is_ticker_in_db(ticker: str):
@@ -31,7 +32,8 @@ def add_ticker_to_watch(ticker: str):
             raise Exception("Ticker already in the database.")
 
         if collection.count_documents({}) >= MAX_TICKERS:
-            raise Exception(f"Max tickers reached. Limit of {MAX_TICKERS}. Watching currently: {collection.find()}")
+            current_tickers = [doc['ticker'] for doc in collection.find()]
+            raise Exception(f"Max tickers reached. Limit of {MAX_TICKERS}. Currently watching: {current_tickers}")
 
         result = collection.insert_one({"ticker": ticker})
     return result.inserted_id
@@ -58,7 +60,7 @@ def is_news_in_db(url: str):
 def add_news_to_db(url: str):
     with MongoDBClient() as db:
         collection = db["news"]
-        result = collection.insert_one(url)
+        result = collection.insert_one({"url": url})
     return result.inserted_id
 
 
@@ -69,3 +71,7 @@ def clear_all_data():
 
         ticker_collection.delete_many({})
         news_collection.delete_many({})
+
+
+print(add_ticker_to_watch("TSLA"))
+print(get_tickers_in_db())
