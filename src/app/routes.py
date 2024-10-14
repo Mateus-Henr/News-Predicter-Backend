@@ -7,7 +7,7 @@ from watch.watch_news import create_wpp_msg
 news_routes = Blueprint('news_routes', __name__)
 
 
-@news_routes.route('/news', methods=['GET'])
+@news_routes.route('/news', methods=['POST'])
 def news():
     try:
         data = request.get_json()

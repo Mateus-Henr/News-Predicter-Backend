@@ -14,7 +14,6 @@ def get_mongo_client():
             raise ValueError("MONGO_URI not found in the .env file.")
 
         client = MongoClient(mongo_uri)
-        print("MongoDB client connected successfully to the cloud instance")
         return client
     except Exception as e:
         print(f"Error connecting to MongoDB: {e}")

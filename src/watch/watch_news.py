@@ -33,8 +33,8 @@ def send_message_to_wpp_server(message):
         response.raise_for_status()
         print(f"Server response: {response.json()}")
         return True
-    except Exception:
-        return False
+    except Exception as e:
+        print("error: " + str(e))
 
 
 def watch():
@@ -43,7 +43,7 @@ def watch():
             stock = finvizfinance(ticker)
             stock_news = stock.ticker_news()
 
-            for i in range(max(len(stock_news), 10)):
+            for i in range(min(len(stock_news), 5)):
                 news_cell = stock_news.iloc[i]
                 news_url = news_cell["Link"]
 
@@ -52,8 +52,8 @@ def watch():
                         prediction = get_prediction_from_llm(news_url, ticker)
                         if add_news_to_db(news_url):
                             send_message_to_wpp_server(create_wpp_msg(ticker, news_url, prediction))
-                    except Exception:
-                        print("ERROR")
+                    except Exception as e:
+                        print("ERROR", str(e))
 
             time.sleep(0.1)
-        time.sleep(5)
+        time.sleep(60)
