@@ -22,7 +22,7 @@ def news():
 
 @news_routes.route('/get-tickers', methods=['GET'])
 def get_tickers():
-    jsonify(get_tickers_in_db())
+    return jsonify(get_tickers_in_db())
 
 
 @news_routes.route('/add-ticker', methods=['POST'])

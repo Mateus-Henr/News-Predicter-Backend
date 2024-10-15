@@ -14,8 +14,8 @@ BASE_URL = os.environ.get("BASE_URL")
 def create_wpp_msg(ticker: str, url: str, prediction: Prediction):
     return (
         f"📈 *Stock Alert:* {ticker}\n"
-        f"*Prediction:* {prediction.prediction_value}\n"
-        f"*Alert Level:* {prediction.alert_level} 🚨\n"
+        f"*Prediction:* {prediction.prediction_value.value}\n"
+        f"*Alert Level:* {prediction.alert_level.value} 🚨\n"
         "🔍 Details\n"
         f"URL: {url}"
     )
